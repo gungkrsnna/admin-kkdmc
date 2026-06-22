@@ -15,6 +15,7 @@ import {
   Receipt,
   ChevronDown,
   ChevronRight,
+  Mail,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -25,7 +26,7 @@ import { useState } from "react";
 function Sidebar() {
 
   const [contentOpen, setContentOpen] =
-  useState(true);
+  useState(false);
 
   const menuGroups = [
     {
@@ -103,6 +104,11 @@ function Sidebar() {
           path: "/inquiries",
         },
         {
+          name: "Contact Messages",
+          icon: Mail,
+          path: "/contact-messages",
+        },
+        {
           name: "Booking",
           icon: ClipboardList,
           path: "/bookings",
@@ -137,16 +143,16 @@ function Sidebar() {
       ],
     },
 
-    {
-      title: "SYSTEM",
-      items: [
-        {
-          name: "Settings",
-          icon: Settings,
-          path: "/settings",
-        },
-      ],
-    },
+    // {
+    //   title: "SYSTEM",
+    //   items: [
+    //     {
+    //       name: "Users",
+    //       icon: Users,
+    //       path: "/users",
+    //     },
+    //   ],
+    // },
   ];
 
   return (

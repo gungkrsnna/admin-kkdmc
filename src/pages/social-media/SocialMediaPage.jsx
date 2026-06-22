@@ -167,7 +167,7 @@ useState(null);
 
           </div>
 
-          <button
+          {/* <button
           type="button"
             onClick={() => {
             setSelected(null);
@@ -186,7 +186,7 @@ useState(null);
           >
             <Plus size={18}/>
             Add Social Media
-          </button>
+          </button> */}
 
         </div>
 
@@ -326,7 +326,7 @@ useState(null);
                             <Pencil size={18}/>
                           </button>
 
-                          <button
+                          {/* <button
                             onClick={() =>
                               handleDelete(
                                 item.id
@@ -340,7 +340,7 @@ useState(null);
                             "
                           >
                             <Trash2 size={18}/>
-                          </button>
+                          </button> */}
 
                         </div>
 

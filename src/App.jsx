@@ -25,6 +25,18 @@ from "./pages/invoices/InvoiceFormPage";
 import SocialMediaPage
 from "./pages/social-media/SocialMediaPage";
 import HomeContentPage from "./pages/content/HomeContentPage";
+import BookingPage
+from "./pages/booking/BookingsPage";
+import BookingDetailPage
+from "./pages/booking/BookingDetailPage";
+import BookingFormPage
+from "./pages/booking/BookingFormPage";
+import ProductContentPage
+from "./pages/content/ProductContentPage";
+import AboutContentPage
+from "./pages/content/AboutContentPage";
+import ContactMessages from "./pages/contact-messages/ContactMessages";
+import UsersPage from "./pages/users/UsersPage";
 
 function App() {
   return (
@@ -154,6 +166,78 @@ function App() {
       <Route
         path="/content/home"
         element={<HomeContentPage />}
+      />
+
+      <Route
+        path="/bookings"
+        element={
+          <ProtectedRoute>
+            <BookingPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/bookings/:id"
+        element={
+          <ProtectedRoute>
+            <BookingDetailPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/bookings/create"
+        element={
+          <ProtectedRoute>
+            <BookingFormPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/bookings/create"
+        element={
+          <ProtectedRoute>
+            <BookingFormPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/content/product"
+        element={
+          <ProtectedRoute>
+            <ProductContentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/content/about"
+        element={
+          <ProtectedRoute>
+            <AboutContentPage />
+          </ProtectedRoute>  
+        }
+      />
+
+      <Route
+        path="/contact-messages"
+        element={
+          <ProtectedRoute>
+            <ContactMessages />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute>
+            <UsersPage />
+          </ProtectedRoute>
+        }
       />
     </Routes>
   );

@@ -127,28 +127,40 @@ function SocialMediaModal({
               </option>
 
               <option value="instagram">
-                Instagram
-              </option>
+  Instagram
+</option>
 
-              <option value="facebook">
-                Facebook
-              </option>
+<option value="facebook">
+  Facebook
+</option>
 
-              <option value="whatsapp">
-                WhatsApp
-              </option>
+<option value="x">
+  X (Twitter)
+</option>
 
-              <option value="youtube">
-                YouTube
-              </option>
+<option value="whatsapp">
+  WhatsApp
+</option>
 
-              <option value="tiktok">
-                TikTok
-              </option>
+<option value="youtube">
+  YouTube
+</option>
 
-              <option value="phone">
-                Phone
-              </option>
+<option value="tiktok">
+  TikTok
+</option>
+
+<option value="email">
+  Email
+</option>
+
+<option value="phone">
+  Phone
+</option>
+
+<option value="location">
+  Location
+</option>
 
             </select>
 

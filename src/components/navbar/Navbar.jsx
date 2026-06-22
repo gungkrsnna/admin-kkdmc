@@ -7,11 +7,19 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import {
+  useNavigate
+} from "react-router-dom";
+import { supabase }
+from "../../lib/supabase";
 
 function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
 
   const dropdownRef = useRef(null);
+
+  const navigate =
+  useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,12 +41,24 @@ function Navbar() {
     };
   }, []);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout =
+  async () => {
 
-    localStorage.clear();
+    try {
 
-    window.location.href = "/login";
+      await supabase.auth
+        .signOut();
+
+      localStorage.clear();
+
+      navigate("/");
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
   };
 
   return (
