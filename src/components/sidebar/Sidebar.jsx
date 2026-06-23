@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ChevronRight,
   Mail,
+  Layers
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -76,6 +77,11 @@ function Sidebar() {
           name: "Categories",
           icon: Tags,
           path: "/categories",
+        },
+        {
+          name: "Sub Categories",
+          icon: Layers,
+          path: "/sub-categories",
         },
         {
           name: "Tour Packages",

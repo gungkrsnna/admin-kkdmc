@@ -4,37 +4,41 @@ import { supabase } from "../lib/supabase";
 const API_URL =
   "https://kkdmc.gladiatoraruna.com/api/invoices";
 
-export const downloadInvoicePdf =
-  async (id) => {
+export const downloadInvoicePdf = async (id) => {
+  const headers =
+    await getHeaders();
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    const response =
-      await axios.get(
-        `${API_URL}/${id}/pdf`,
-        {
-          responseType: "arraybuffer",
-          headers: {
-            Authorization:
-              `Bearer ${session.access_token}`,
-          },
-        }
-      );
-
-    const blob = new Blob(
-      [response.data],
+  const response =
+    await axios.get(
+      `${API_URL}/${id}/pdf`,
       {
-        type: "application/pdf",
+        ...headers,
+        responseType: "blob",
       }
     );
 
-    const url =
-      URL.createObjectURL(blob);
+  const blob = new Blob(
+    [response.data],
+    {
+      type: "application/pdf",
+    }
+  );
 
-    window.open(url, "_blank");
-  };
+  const url =
+    window.URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+  link.download = `invoice-${id}.pdf`;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  window.URL.revokeObjectURL(url);
+};
 
 const getHeaders =
   async () => {
@@ -160,3 +164,32 @@ export const updateInvoiceItem =
 
     return res.data;
   };
+
+export const viewInvoicePdf = async (id) => {
+  const headers =
+    await getHeaders();
+
+  const response =
+    await axios.get(
+      `${API_URL}/${id}/pdf`,
+      {
+        ...headers,
+        responseType: "blob",
+      }
+    );
+
+  const blob = new Blob(
+    [response.data],
+    {
+      type: "application/pdf",
+    }
+  );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  window.open(
+    url,
+    "_blank"
+  );
+};

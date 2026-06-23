@@ -12,6 +12,10 @@ import {
 import AdminLayout from "../../layouts/AdminLayout";
 
 import {
+  getSubCategories,
+} from "../../services/subCategoryService";
+
+import {
   getCategories,
 } from "../../services/categoryService";
 
@@ -67,6 +71,9 @@ function TourPackageFormPage() {
   const [categories, setCategories] =
     useState([]);
 
+    const [subCategories, setSubCategories] =
+  useState([]);
+
     const [searchParams] =
     useSearchParams();
 
@@ -111,6 +118,7 @@ const [termsContent,
 
   const [form, setForm] = useState({
     category_id: "",
+    sub_category_id: "",
     title: "",
     short_description: "",
     description: "",
@@ -143,6 +151,24 @@ const [termsContent,
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const loadSubCategories =
+  async () => {
+
+    try {
+
+      const data =
+        await getSubCategories();
+
+      setSubCategories(data);
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
   };
 
   const editOption = (index) => {
@@ -235,6 +261,9 @@ async () => {
           category_id:
             data.category_id || "",
 
+          sub_category_id:
+            data.sub_category_id || "",
+
           title:
             data.title || "",
 
@@ -293,19 +322,21 @@ useEffect(() => {
 
   loadCategories();
 
+  loadSubCategories();
+
   if (isEdit) {
 
-  loadPackage();
+    loadPackage();
 
-  loadOptions();
+    loadOptions();
 
-  loadHighlights();
+    loadHighlights();
 
-  loadInclusions();
+    loadInclusions();
 
-  loadTerms();
+    loadTerms();
 
-}
+  }
 
 }, []);
 
@@ -1017,10 +1048,12 @@ async (inclusion) => {
                         form.category_id
                       }
                       onChange={(e) =>
-                        handleChange(
-                          "category_id",
-                          e.target.value
-                        )
+                        setForm({
+                          ...form,
+                          category_id:
+                            e.target.value,
+                          sub_category_id: "",
+                        })
                       }
                       className="
                         w-full
@@ -1045,6 +1078,53 @@ async (inclusion) => {
                         )
                       )}
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block mb-2 font-medium">
+                      Sub Category
+                    </label>
+
+                    <select
+                      value={
+                        form.sub_category_id
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          "sub_category_id",
+                          e.target.value
+                        )
+                      }
+                      className="
+                        w-full
+                        h-12
+                        px-4
+                        border
+                        rounded-xl
+                      "
+                    >
+                      <option value="">
+                        No Sub Category
+                      </option>
+
+                     {subCategories
+  .filter(
+    item =>
+      item.category_id ===
+      form.category_id
+  )
+  .map(item => (
+
+    <option
+      key={item.id}
+      value={item.id}
+    >
+      {item.title}
+    </option>
+
+  ))}
+                    </select>
+
                   </div>
 
                   <div>

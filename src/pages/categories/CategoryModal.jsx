@@ -71,6 +71,12 @@ function CategoryModal({
   }
 };
 
+
+const selectedIcon = CATEGORY_ICONS.find(
+  item => item.name === form.icon
+);
+
+
   if (!open) return null;
 
   return (
@@ -92,7 +98,10 @@ function CategoryModal({
           bg-white
           rounded-3xl
           w-full
-          max-w-3xl
+          max-w-5xl
+          max-h-[90vh]
+          flex
+          flex-col
           shadow-2xl
           overflow-hidden
         "
@@ -137,205 +146,251 @@ function CategoryModal({
         </div>
 
         {/* Body */}
-        <div className="p-6 space-y-6">
+        {/* Body */}
+<div
+  className="
+    flex-1
+    overflow-y-auto
+    p-6
+  "
+>
+  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-          {/* Category Name */}
-          <div>
-            <label
-              className="
-                block
-                mb-2
-                font-semibold
-              "
-            >
-              Category Name
-            </label>
+    {/* LEFT */}
+    <div className="lg:col-span-7 space-y-6">
 
-            <input
-              type="text"
-              value={form.title}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  title: e.target.value,
-                })
-              }
-              placeholder="Airport Transfer"
-              className="
-                w-full
-                h-12
-                px-4
-                border
-                rounded-xl
-                outline-none
-                focus:ring-2
-                focus:ring-[#14213D]
-              "
-            />
-          </div>
+      {/* Category Name */}
+      <div>
+        <label className="block mb-2 font-semibold">
+          Category Name
+        </label>
 
-          {/* Icon Picker */}
-          <div>
-            <label
-              className="
-                block
-                mb-3
-                font-semibold
-              "
-            >
-              Category Icon
-            </label>
+        <input
+          type="text"
+          value={form.title}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              title: e.target.value,
+            })
+          }
+          placeholder="Airport Transfer"
+          className="
+            w-full
+            h-12
+            px-4
+            border
+            rounded-xl
+            outline-none
+            focus:ring-2
+            focus:ring-[#14213D]
+          "
+        />
+      </div>
 
-            <div
-              className="
-                grid
-                grid-cols-4
-                md:grid-cols-8
-                gap-3
-              "
-            >
-              {CATEGORY_ICONS.map(
-                (item) => {
-                  const Icon = item.icon;
+      {/* Description */}
+      <div>
+        <label className="block mb-2 font-semibold">
+          Description
+        </label>
 
-                  return (
-                    <button
-                      key={item.name}
-                      type="button"
-                      onClick={() =>
-                        setForm({
-                          ...form,
-                          icon: item.name,
-                        })
-                      }
-                      className={`
-                        h-20
-                        rounded-2xl
-                        border
-                        flex
-                        items-center
-                        justify-center
-                        text-2xl
-                        transition
+        <textarea
+          rows={6}
+          value={form.description}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              description: e.target.value,
+            })
+          }
+          placeholder="Category description..."
+          className="
+            w-full
+            border
+            rounded-xl
+            p-4
+            outline-none
+            resize-none
+            focus:ring-2
+            focus:ring-[#14213D]
+          "
+        />
+      </div>
 
-                        ${
-                          form.icon ===
-                          item.name
-                            ? "bg-[#14213D] text-white border-[#14213D]"
-                            : "hover:border-[#14213D]"
-                        }
-                      `}
-                    >
-                      <Icon />
-                    </button>
-                  );
-                }
-              )}
-            </div>
-          </div>
+      {/* Sort Order */}
+      <div>
+        <label className="block mb-2 font-semibold">
+          Sort Order
+        </label>
 
-          {/* Description */}
-          <div>
-            <label
-              className="
-                block
-                mb-2
-                font-semibold
-              "
-            >
-              Description
-            </label>
+        <input
+          type="number"
+          value={form.sort_order}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              sort_order: Number(
+                e.target.value
+              ),
+            })
+          }
+          className="
+            w-full
+            h-12
+            px-4
+            border
+            rounded-xl
+            outline-none
+            focus:ring-2
+            focus:ring-[#14213D]
+          "
+        />
+      </div>
 
-            <textarea
-              rows={4}
-              value={form.description}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  description:
-                    e.target.value,
-                })
-              }
-              placeholder="Category description..."
-              className="
-                w-full
-                border
-                rounded-xl
-                p-4
-                outline-none
-                resize-none
-                focus:ring-2
-                focus:ring-[#14213D]
-              "
-            />
-          </div>
+      {/* Status */}
+      <div>
+        <label
+          className="
+            flex
+            items-center
+            gap-3
+            cursor-pointer
+          "
+        >
+          <input
+            type="checkbox"
+            checked={form.is_active}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                is_active:
+                  e.target.checked,
+              })
+            }
+          />
 
-          {/* Sort Order */}
-          <div>
-            <label
-              className="
-                block
-                mb-2
-                font-semibold
-              "
-            >
-              Sort Order
-            </label>
+          <span className="font-medium">
+            Active Category
+          </span>
+        </label>
+      </div>
 
-            <input
-              type="number"
-              value={form.sort_order}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  sort_order:
-                    Number(
-                      e.target.value
-                    ),
-                })
-              }
-              className="
-                w-full
-                h-12
-                px-4
-                border
-                rounded-xl
-                outline-none
-                focus:ring-2
-                focus:ring-[#14213D]
-              "
-            />
-          </div>
+    </div>
 
-          {/* Status */}
-          <div>
-            <label
-              className="
-                flex
-                items-center
-                gap-3
-                cursor-pointer
-              "
-            >
-              <input
-                type="checkbox"
-                checked={form.is_active}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    is_active:
-                      e.target.checked,
-                  })
-                }
+    {/* RIGHT */}
+    <div className="lg:col-span-5">
+
+      <label className="block mb-3 font-semibold">
+        Category Icon
+      </label>
+
+      {/* Selected Icon */}
+      <div
+        className="
+          mb-4
+          rounded-2xl
+          border
+          bg-slate-50
+          p-4
+        "
+      >
+        <div className="flex items-center gap-4">
+
+          <div
+            className="
+              h-16
+              w-16
+              rounded-2xl
+              bg-[#14213D]
+              text-white
+              flex
+              items-center
+              justify-center
+            "
+          >
+            {selectedIcon && (
+              <selectedIcon.icon
+                size={28}
               />
+            )}
+          </div>
 
-              <span className="font-medium">
-                Active Category
-              </span>
-            </label>
+          <div>
+            <p className="text-sm text-gray-500">
+              Selected Icon
+            </p>
+
+            <p className="font-semibold">
+              {form.icon ||
+                "Choose icon"}
+            </p>
           </div>
 
         </div>
+      </div>
+
+      {/* Icon Grid */}
+      <div
+        className="
+          border
+          rounded-2xl
+          p-4
+          max-h-[420px]
+          overflow-y-auto
+        "
+      >
+        <div
+          className="
+            grid
+            grid-cols-4
+            md:grid-cols-5
+            gap-3
+          "
+        >
+          {CATEGORY_ICONS.map(
+            (item) => {
+              const Icon = item.icon;
+
+              return (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() =>
+                    setForm({
+                      ...form,
+                      icon: item.name,
+                    })
+                  }
+                  className={`
+                    h-14
+                    rounded-xl
+                    border
+                    flex
+                    items-center
+                    justify-center
+                    text-xl
+                    transition
+
+                    ${
+                      form.icon ===
+                      item.name
+                        ? "bg-[#14213D] text-white border-[#14213D]"
+                        : "hover:border-[#14213D]"
+                    }
+                  `}
+                >
+                  <Icon />
+                </button>
+              );
+            }
+          )}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
         {/* Footer */}
         <div

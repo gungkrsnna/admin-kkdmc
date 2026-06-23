@@ -37,6 +37,7 @@ import AboutContentPage
 from "./pages/content/AboutContentPage";
 import ContactMessages from "./pages/contact-messages/ContactMessages";
 import UsersPage from "./pages/users/UsersPage";
+import SubCategoriesPage from "./pages/subCategories/SubCategoriesPage";
 
 function App() {
   return (
@@ -60,6 +61,15 @@ function App() {
         element={
           <ProtectedRoute>
             <CategoriesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/sub-categories"
+        element={
+          <ProtectedRoute>
+            <SubCategoriesPage />
           </ProtectedRoute>
         }
       />

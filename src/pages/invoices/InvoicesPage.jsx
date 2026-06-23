@@ -26,6 +26,7 @@ from "../../layouts/AdminLayout";
 import {
   getInvoices,
   deleteInvoice,
+  viewInvoicePdf,
   downloadInvoicePdf,
 } from "../../services/invoiceService";
 
@@ -412,10 +413,8 @@ function InvoicesPage() {
 
     <button
         onClick={() =>
-            downloadInvoicePdf(
-            invoice.id
-            )
-        }
+    viewInvoicePdf(invoice.id)
+  }
       target="_blank"
       rel="noreferrer"
       className="
@@ -433,10 +432,10 @@ function InvoicesPage() {
 
     <button
         onClick={() =>
-            downloadInvoicePdf(
-            invoice.id
-            )
-        }
+    downloadInvoicePdf(
+      invoice.id
+    )
+  }
       target="_blank"
       rel="noreferrer"
       className="
