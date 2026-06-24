@@ -472,52 +472,75 @@ const handlePaymentStatus =
                 Booking Summary
               </h2>
   
-              <div className="space-y-3">
-  
-              <InfoRow
-  label="Travel Date"
-  value={
-    booking.travel_date
-      ? new Date(
-          booking.travel_date
-        ).toLocaleDateString(
-          "id-ID",
-          {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          }
-        )
-      : "-"
-  }
-/>
-  
-                <InfoRow
-                  label="Guests"
-                  value={
-                    booking.guests
-                  }
-                />
-  
-                <InfoRow
-                  label="Package"
-                  value={
-                    booking
-                      ?.tour_packages
-                      ?.title
-                  }
-                />
-  
-                <InfoRow
-                  label="Option"
-                  value={
-                    booking
-                      ?.package_options
-                      ?.name
-                  }
-                />
-  
-              </div>
+<div className="space-y-3">
+
+  <InfoRow
+    label="Booking Type"
+    value={
+      booking.booking_type === "manual"
+        ? "Manual Booking"
+        : "Package Booking"
+    }
+  />
+
+  <InfoRow
+    label="Travel Date"
+    value={
+      booking.travel_date
+        ? new Date(
+            booking.travel_date
+          ).toLocaleDateString(
+            "id-ID",
+            {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }
+          )
+        : "-"
+    }
+  />
+
+  <InfoRow
+    label="Guests"
+    value={booking.guests}
+  />
+
+  {booking.booking_type === "manual" ? (
+    <>
+      <InfoRow
+        label="Booking Item"
+        value={booking.item_name}
+      />
+
+      <InfoRow
+        label="Description"
+        value={
+          booking.item_description
+        }
+      />
+    </>
+  ) : (
+    <>
+      <InfoRow
+        label="Package"
+        value={
+          booking?.tour_packages
+            ?.title
+        }
+      />
+
+      <InfoRow
+        label="Option"
+        value={
+          booking?.package_options
+            ?.name
+        }
+      />
+    </>
+  )}
+
+</div>
   
             </div>
   

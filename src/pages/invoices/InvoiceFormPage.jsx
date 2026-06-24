@@ -4,6 +4,11 @@ import {
 } from "react";
 
 import {
+  Download,
+  Printer,
+} from "lucide-react";
+
+import {
   useNavigate,
   useParams,
 } from "react-router-dom";
@@ -12,6 +17,9 @@ import {
   createInvoice,
   getInvoiceById,
   updateInvoice,
+
+  viewInvoicePdf,
+  downloadInvoicePdf,
 } from "../../services/invoiceService";
 
 import AdminLayout
@@ -54,6 +62,8 @@ function InvoiceFormPage() {
 
     notes: "",
     status: "draft",
+
+    tax_percentage: 0,
   });
 
   useEffect(() => {
@@ -103,6 +113,9 @@ function InvoiceFormPage() {
 
         status:
           data.status || "draft",
+
+        tax_percentage:
+          data.tax_percentage  || 0,
       });
 
     };
@@ -157,20 +170,81 @@ function InvoiceFormPage() {
 
     };
 
+  const API_URL =
+    import.meta.env.VITE_API_URL;
+
+  const handleDownloadPdf =
+    () => {
+
+      downloadInvoicePdf(
+        invoice.id
+      );
+
+    };
+
+  const handlePrint =
+    () => {
+
+      viewInvoicePdf(
+        invoice.id
+      );
+
+    };
+
   return (
     <AdminLayout>
 
       <div className="space-y-6">
 
-        <div>
+        <div className="flex justify-between items-center">
 
-            <h1 className="text-3xl font-black">
+          <h1 className="text-3xl font-black">
 
             {isEdit
-                ? "Edit Invoice"
-                : "Create Invoice"}
+              ? "Edit Invoice"
+              : "Create Invoice"}
 
-            </h1>
+          </h1>
+
+          {isEdit && invoice && (
+
+            <div className="flex gap-3">
+
+              <button
+                type="button"
+                onClick={handleDownloadPdf}
+                className="
+                  flex items-center gap-2
+                  bg-red-600
+                  text-white
+                  px-4
+                  py-2
+                  rounded-xl
+                "
+              >
+                <Download size={18} />
+                PDF
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrint}
+                className="
+                  flex items-center gap-2
+                  bg-gray-800
+                  text-white
+                  px-4
+                  py-2
+                  rounded-xl
+                "
+              >
+                <Printer size={18} />
+                Print
+              </button>
+
+            </div>
+
+          )}
 
         </div>
 
@@ -186,7 +260,12 @@ function InvoiceFormPage() {
 
             <div className="grid md:grid-cols-2 gap-6">
 
-            <input
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Customer Name
+              </label>
+
+              <input
                 name="customer_name"
                 placeholder="Customer Name"
                 value={form.customer_name}
@@ -202,9 +281,15 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Email
+              </label>
 
-            <input
+              <input
                 name="customer_email"
                 placeholder="Email"
                 value={form.customer_email}
@@ -220,9 +305,15 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
 
-            <input
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Whatsapp Number
+              </label>
+
+              <input
                 name="customer_whatsapp"
                 placeholder="Whatsapp"
                 value={form.customer_whatsapp}
@@ -238,9 +329,16 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
 
-            <input
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Invoice Date
+              </label>
+
+              <input
                 type="date"
                 name="invoice_date"
                 value={form.invoice_date}
@@ -256,9 +354,15 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Due Date
+              </label>
 
-            <input
+              <input
                 type="date"
                 name="due_date"
                 value={form.due_date}
@@ -274,9 +378,15 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Sales In Charge
+              </label>
 
-            <input
+              <input
                 name="sales_in_charge"
                 placeholder="Sales In Charge"
                 value={form.sales_in_charge}
@@ -292,9 +402,15 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
 
-            <input
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Payment Term
+              </label>
+
+              <input
                 name="payment_term"
                 placeholder="Payment Term"
                 value={form.payment_term}
@@ -310,55 +426,96 @@ function InvoiceFormPage() {
                 focus:ring-2
                 focus:ring-[#14213D]
                 "
-            />
+              />
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Tax (%)
+              </label>
+
+              <input
+                 type="number"
+                  step="0.01"
+                  name="tax_percentage"
+                  value={form.tax_percentage}
+                  onChange={handleChange}
+                className="
+                  w-full
+                  h-12
+                  border
+                  border-gray-300
+                  rounded-xl
+                  px-4
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#14213D]
+                "
+              />
+            </div>
+            
 
             </div>
 
-            <textarea
-            rows="4"
-            name="notes"
-            value={form.notes}
-            onChange={handleChange}
-            placeholder="Notes"
-            className="
-                w-full
-                border
-                rounded-xl
-                p-4
-            "
-            />
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Notes
+              </label>
 
-            <select
-  name="status"
-  value={form.status}
-  onChange={handleChange}
-  className="
-    w-full
-    h-12
-    border
-    border-gray-300
-    rounded-xl
-    px-4
-  "
->
+              <textarea
+                rows="4"
+                name="notes"
+                value={form.notes}
+                onChange={handleChange}
+                placeholder="Notes"
+                className="
+                    w-full
+                    border
+                    rounded-xl
+                    p-4
+                "
+                />
+            </div>
 
-  <option value="draft">
-    Draft
-  </option>
+            
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Status
+              </label>
 
-  <option value="published">
-    Published
-  </option>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                className="
+                  w-full
+                  h-12
+                  border
+                  border-gray-300
+                  rounded-xl
+                  px-4
+                "
+              >
 
-  <option value="paid">
-    Paid
-  </option>
+                <option value="draft">
+                  Draft
+                </option>
 
-  <option value="cancelled">
-    Cancelled
-  </option>
+                <option value="published">
+                  Published
+                </option>
 
-</select>
+                <option value="paid">
+                  Paid
+                </option>
+
+                <option value="cancelled">
+                  Cancelled
+                </option>
+
+              </select>
+            </div>
+            
 
             <button
             type="submit"
@@ -418,6 +575,36 @@ function InvoiceFormPage() {
             Rp{" "}
             {Number(
               invoice.subtotal || 0
+            ).toLocaleString()}
+          </span>
+
+        </div>
+
+        <div className="flex justify-between">
+
+          <span>
+            Tax ({invoice.tax_percentage || 0}%)
+          </span>
+
+          <span>
+            Rp{" "}
+            {Number(
+              invoice.tax_amount || 0
+            ).toLocaleString()}
+          </span>
+
+        </div>
+
+        <div className="flex justify-between font-semibold">
+
+          <span>
+            Total
+          </span>
+
+          <span>
+            Rp{" "}
+            {Number(
+              invoice.total_amount || 0
             ).toLocaleString()}
           </span>
 

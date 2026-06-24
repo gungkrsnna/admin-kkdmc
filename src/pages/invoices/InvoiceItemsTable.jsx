@@ -29,6 +29,7 @@ function InvoiceItemsTable({
     service_date: "",
     description: "",
     pax: 1,
+    volume: 0,
     unit_price: 0,
   });
 
@@ -50,6 +51,7 @@ function InvoiceItemsTable({
           service_date: "",
           description: "",
           pax: 1,
+          volume: 0,
           unit_price: 0,
         });
 
@@ -122,7 +124,11 @@ function InvoiceItemsTable({
             </th>
 
             <th className="py-3 text-center">
-              Pax
+              Qty
+            </th>
+
+            <th className="py-3 text-center">
+              Vol
             </th>
 
             <th className="py-3 text-right">
@@ -163,6 +169,10 @@ function InvoiceItemsTable({
 
                 <td className="text-center">
                   {item.pax}
+                </td>
+
+                <td className="text-center">
+                  {item.volume}
                 </td>
 
                 <td className="text-right">
@@ -252,6 +262,22 @@ function InvoiceItemsTable({
                     ...form,
                     pax:
                       e.target.value,
+                  })
+                }
+                className="border rounded-lg px-3 py-2 w-20"
+              />
+
+            </td>
+
+            <td className="pt-4">
+
+              <input
+                type="number"
+                value={form.volume}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    volume: e.target.value,
                   })
                 }
                 className="border rounded-lg px-3 py-2 w-20"
