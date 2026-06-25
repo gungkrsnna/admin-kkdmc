@@ -91,3 +91,18 @@ export const createManualBooking =
 
     return res.data;
 };
+
+export const exportBookings =
+  async () => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/admin/export`,
+        {
+          responseType: "blob",
+        }
+      );
+
+    return response.data;
+
+  };

@@ -7,13 +7,14 @@ import {
   CreditCard,
   CheckCircle,
   Clock,
+  Download,
 } from "lucide-react";
 
 import { useNavigate }
 from "react-router-dom";
 
 import AdminLayout from "../../layouts/AdminLayout";
-import { getAllBookings } from "../../services/bookingService";
+import { getAllBookings, exportBookings, } from "../../services/bookingService";
 
 import {
     formatBookingStatus,
@@ -115,6 +116,51 @@ export default function BookingsPage() {
         "completed"
     ).length;
 
+  const handleExport =
+  async () => {
+
+    try {
+
+      const blob =
+        await exportBookings();
+
+      const url =
+        window.URL.createObjectURL(
+          new Blob([blob])
+        );
+
+      const link =
+        document.createElement("a");
+
+      link.href = url;
+
+      link.download =
+        "Booking_Report.xlsx";
+
+      document.body.appendChild(
+        link
+      );
+
+      link.click();
+
+      link.remove();
+
+      window.URL.revokeObjectURL(
+        url
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Failed to export bookings."
+      );
+
+    }
+
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -132,23 +178,45 @@ export default function BookingsPage() {
             </p>
           </div>
 
-          <button
-  onClick={() =>
-    navigate(
-      "/bookings/create"
-    )
-  }
-  className="
-    flex items-center gap-2
-    rounded-xl
-    bg-primary
-    px-5 py-3
-    text-white
-  "
->
-  <Plus size={18} />
-  New Booking
-</button>
+          <div className="flex items-center gap-3">
+
+            <button
+              onClick={handleExport}
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-xl
+                bg-green-600
+                px-5
+                py-3
+                text-white
+              "
+            >
+              <Download size={18} />
+              Export Excel
+            </button>
+
+            <button
+              onClick={() =>
+                navigate("/bookings/create")
+              }
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-xl
+                bg-primary
+                px-5
+                py-3
+                text-white
+              "
+            >
+              <Plus size={18} />
+              New Booking
+            </button>
+
+          </div>
         </div>
 
         {/* Stats */}

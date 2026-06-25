@@ -16,7 +16,8 @@ import {
   ChevronDown,
   ChevronRight,
   Mail,
-  Layers
+  Layers,
+  Newspaper
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -61,6 +62,21 @@ function Sidebar() {
               path: "/content/about",
             },
           ],
+        },
+        {
+          name: "Travel News",
+          icon: Newspaper,
+          path: "/news",
+        },
+        {
+          name: "FAQs",
+          icon: MessageSquareText,
+          path: "/faqs",
+        },
+        {
+          name: "FAQ Categories",
+          icon: MessageSquareText,
+          path: "/faq-categories",
         },
         {
           name: "Social Media",
@@ -129,6 +145,22 @@ function Sidebar() {
           name: "Customers",
           icon: Users,
           path: "/customers",
+        },
+      ],
+    },
+
+    {
+      title: "MARKETING",
+      items: [
+        {
+          name: "Newsletter",
+          icon: Mail,
+          path: "/newsletter",
+        },
+        {
+          name: "Newsletter Campaigns",
+          icon: FileText,
+          path: "/newsletter-campaigns",
         },
       ],
     },

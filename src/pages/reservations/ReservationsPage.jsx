@@ -13,6 +13,7 @@ from "../../layouts/AdminLayout";
 
 import {
   getReservations,
+  exportReservations,
 } from "../../services/reservationService";
 
 import ReservationDetailModal
@@ -105,6 +106,46 @@ function ReservationsPage() {
       }
 
     };
+  const handleExport =
+  async () => {
+
+    try {
+
+      const blob =
+        await exportReservations();
+
+      const url =
+        window.URL.createObjectURL(blob);
+
+      const link =
+        document.createElement("a");
+
+      link.href = url;
+
+      link.download =
+        `Reservation_Report_${new Date()
+          .toISOString()
+          .slice(0,10)}.xlsx`;
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Failed to export reservation report."
+      );
+
+    }
+
+  };
 
   return (
     <AdminLayout>
@@ -125,42 +166,74 @@ function ReservationsPage() {
 
         <div
           className="
-            bg-white
-            rounded-2xl
-            p-4
+            flex
+            justify-between
+            items-center
+            gap-4
           "
         >
 
           <div
+  className="
+    flex
+    items-center
+    bg-white
+    border
+    border-gray-200
+    rounded-2xl
+    px-4
+    h-14
+    flex-1
+    transition-all
+    duration-200
+    focus-within:border-primary
+    focus-within:ring-4
+    focus-within:ring-primary/10
+    shadow-sm
+  "
+>
+
+  <Search
+    size={20}
+    className="
+      text-gray-400
+      mr-3
+    "
+  />
+
+  <input
+    type="text"
+    placeholder="Search booking number or customer..."
+    value={search}
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+    className="
+      flex-1
+      bg-transparent
+      outline-none
+      text-gray-700
+      placeholder:text-gray-400
+    "
+  />
+
+</div>
+
+          <button
+            onClick={handleExport}
             className="
-              flex
-              items-center
-              gap-3
-              border
-              rounded-xl
-              px-4
               h-12
+              px-6
+              rounded-xl
+              bg-green-600
+              text-white
+              font-semibold
+              hover:bg-green-700
+              transition
             "
           >
-
-            <Search size={18} />
-
-            <input
-              type="text"
-              placeholder="Search..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
-              className="
-                flex-1
-                outline-none
-              "
-            />
-
-          </div>
+            Export Excel
+          </button>
 
         </div>
 

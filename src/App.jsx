@@ -38,6 +38,16 @@ from "./pages/content/AboutContentPage";
 import ContactMessages from "./pages/contact-messages/ContactMessages";
 import UsersPage from "./pages/users/UsersPage";
 import SubCategoriesPage from "./pages/subCategories/SubCategoriesPage";
+import NewsletterPage from "./pages/newsletter/NewsletterPage";
+import CampaignsPage from "./pages/newsletter/CampaignsPage";
+import CampaignForm
+from "./pages/newsletter/CampaignForm";
+import FaqCategoriesPage
+from "./pages/faq-categories/FaqCategoriesPage";
+import FaqsPage from "./pages/faqs/FaqsPage";
+import NewsPage from "./pages/news/NewsPage";
+import CreateNewsPage from "./pages/news/CreateNewsPage";
+import EditNewsPage from "./pages/news/EditNewsPage";
 
 function App() {
   return (
@@ -246,6 +256,87 @@ function App() {
         element={
           <ProtectedRoute>
             <UsersPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/newsletter"
+        element={
+          <ProtectedRoute>
+            <NewsletterPage  />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/newsletter-campaigns"
+        element={
+          <ProtectedRoute>
+            <CampaignsPage  />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/newsletter-campaigns/create"
+        element={
+          <ProtectedRoute>
+            <CampaignForm  />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/newsletter-campaigns/edit/:id"
+        element={
+          <ProtectedRoute>
+            <CampaignForm  />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/faq-categories"
+        element={
+          <ProtectedRoute>
+            <FaqCategoriesPage   />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/faqs"
+        element={
+          <ProtectedRoute>
+            <FaqsPage   />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/news"
+        element={
+          <ProtectedRoute>
+            <NewsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/news/create"
+        element={
+          <ProtectedRoute>
+            <CreateNewsPage />    
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/news/edit/:id"
+        element={
+          <ProtectedRoute>
+            <EditNewsPage />
           </ProtectedRoute>
         }
       />

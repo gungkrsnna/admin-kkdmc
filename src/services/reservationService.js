@@ -36,3 +36,18 @@ export const updateReservation =
 
     return res.data;
   };
+
+export const exportReservations =
+  async () => {
+
+    const response =
+      await api.get(
+        "/reservations/export",
+        {
+          responseType: "blob",
+        }
+      );
+
+    return response.data;
+
+  };
