@@ -6,7 +6,10 @@ import { toast } from "react-hot-toast";
 
 import {
   updateReservation,
+  downloadConfirmation
 } from "../../services/reservationService";
+
+
 
 function ReservationDetailModal({
   reservation,
@@ -411,34 +414,62 @@ function ReservationDetailModal({
 
         {/* Footer */}
         <div
-          className="
-            border-t
-            p-6
-            flex
-            justify-end
-          "
-        >
+  className="
+    border-t
+    p-6
+    flex
+    justify-between
+    items-center
+  "
+>
 
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="
-              bg-[#14213D]
-              text-white
-              px-6
-              py-3
-              rounded-xl
-              font-semibold
-            "
-          >
+  <button
 
-            {saving
-              ? "Saving..."
-              : "Save Changes"}
+    onClick={() =>
+      downloadConfirmation(
+        reservation.id
+      )
+    }
 
-          </button>
+    className="
+      px-5
+      py-3
+      rounded-xl
+      bg-emerald-600
+      text-white
+      font-semibold
+    "
 
-        </div>
+  >
+
+    Confirmation Letter
+
+  </button>
+
+  <button
+
+    onClick={handleSave}
+
+    disabled={saving}
+
+    className="
+      bg-[#14213D]
+      text-white
+      px-6
+      py-3
+      rounded-xl
+      font-semibold
+    "
+
+  >
+
+    {saving
+      ? "Saving..."
+      : "Save Changes"}
+
+  </button>
+
+</div>
 
       </div>
 

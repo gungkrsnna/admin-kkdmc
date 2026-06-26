@@ -6,6 +6,7 @@ import {
 import {
   Search,
   Eye,
+  FileText,
 } from "lucide-react";
 
 import AdminLayout
@@ -14,6 +15,7 @@ from "../../layouts/AdminLayout";
 import {
   getReservations,
   exportReservations,
+  downloadConfirmation,
 } from "../../services/reservationService";
 
 import ReservationDetailModal
@@ -339,31 +341,36 @@ function ReservationsPage() {
 
                       <td className="px-6 py-4">
 
-                        <div
-                          className="
-                            flex
-                            justify-center
-                          "
-                        >
+  <div className="flex justify-center gap-2">
 
-                          <button
-                            onClick={() =>
-                              setSelectedReservation(
-                                item
-                              )
-                            }
-                            className="
-                              p-2
-                              rounded-lg
-                              hover:bg-gray-100
-                            "
-                          >
-                            <Eye size={18} />
-                          </button>
+    <button
+      onClick={() => setSelectedReservation(item)}
+      className="
+        p-2
+        rounded-lg
+        hover:bg-gray-100
+      "
+      title="View Detail"
+    >
+      <Eye size={18} />
+    </button>
 
-                        </div>
+    <button
+      onClick={() => downloadConfirmation(item.id)}
+      className="
+        p-2
+        rounded-lg
+        hover:bg-blue-100
+        text-blue-600
+      "
+      title="Confirmation Letter"
+    >
+      <FileText size={18} />
+    </button>
 
-                      </td>
+  </div>
+
+</td>
 
                     </tr>
 

@@ -51,3 +51,28 @@ export const exportReservations =
     return response.data;
 
   };
+
+export const downloadConfirmation =
+async (id) => {
+
+  const response =
+    await api.get(
+      `/reservations/${id}/confirmation`,
+      {
+        responseType: "blob",
+      }
+    );
+
+  const blob = new Blob(
+    [response.data],
+    {
+      type: "application/pdf",
+    }
+  );
+
+  const url =
+    window.URL.createObjectURL(blob);
+
+  window.open(url, "_blank");
+
+};
