@@ -27,32 +27,38 @@ export const getNewsById =
 
 };
 
-export const createNews =
-  async (payload) => {
+export const createNews = async (payload) => {
 
-    const res =
-      await axios.post(
-        API_URL,
-        payload
-      );
+  const res = await axios.post(
+    API_URL,
+    payload,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
-    return res.data;
+  return res.data;
 
 };
 
-export const updateNews =
-  async (
-    id,
-    payload
-  ) => {
+export const updateNews = async (
+  id,
+  payload
+) => {
 
-    const res =
-      await axios.put(
-        `${API_URL}/${id}`,
-        payload
-      );
+  const res = await axios.put(
+    `${API_URL}/${id}`,
+    payload,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
-    return res.data;
+  return res.data;
 
 };
 

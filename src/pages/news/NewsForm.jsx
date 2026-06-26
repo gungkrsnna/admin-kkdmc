@@ -1,17 +1,13 @@
 function NewsForm({
-
   form,
-
   setForm,
-
   categories,
-
   loading,
-
+  preview,
+  onImageChange,
+  onRemoveImage,
   onSubmit,
-
   submitLabel = "Save",
-
 }) {
 
   const slugify = (text) => {
@@ -222,63 +218,56 @@ function NewsForm({
           <div className="lg:col-span-2">
 
             <label className="block mb-2 font-semibold">
-              Featured Image URL
+              Featured Image
             </label>
 
             <input
-
-              value={form.featured_image}
-
-              onChange={(e)=>
-
-                handleChange(
-
-                  "featured_image",
-
-                  e.target.value
-
-                )
-
-              }
-
+              type="file"
+              accept="image/*"
+              onChange={onImageChange}
               className="
                 w-full
                 border
                 rounded-xl
                 px-4
                 py-3
+                file:mr-4
+                file:px-4
+                file:py-2
+                file:border-0
+                file:rounded-lg
+                file:bg-primary
+                file:text-white
+                file:cursor-pointer
+                cursor-pointer
               "
-
             />
+
+            <p className="mt-2 text-sm text-gray-500">
+              Accepted formats: JPG, PNG, WEBP • Maximum file size: 2 MB
+            </p>
 
           </div>
 
-          {
-
-            form.featured_image && (
-
-              <div className="lg:col-span-2">
-
+          {preview && (
+            <div className="lg:col-span-2 space-y-3">
+              <div className="overflow-hidden border rounded-2xl">
                 <img
-
-                  src={form.featured_image}
-
+                  src={preview}
                   alt="Preview"
-
-                  className="
-                    w-full
-                    h-72
-                    rounded-xl
-                    object-cover
-                  "
-
+                  className="w-full h-80 object-cover"
                 />
-
               </div>
 
-            )
-
-          }
+              <button
+                type="button"
+                onClick={onRemoveImage}
+                className="px-4 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
 
           {/* Publish */}
 

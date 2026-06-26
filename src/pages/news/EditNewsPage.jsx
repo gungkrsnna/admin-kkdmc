@@ -12,6 +12,8 @@ import AdminLayout from "../../layouts/AdminLayout";
 
 import NewsForm from "./NewsForm";
 
+import { toast } from "react-hot-toast";
+
 import {
   getNewsById,
   updateNews,
@@ -38,6 +40,12 @@ function EditNewsPage() {
     setCategories] =
     useState([]);
 
+  const [preview, setPreview] =
+    useState(null);
+
+  const [removeCurrentImage, setRemoveCurrentImage] =
+    useState(false);
+
   const [form,
     setForm] =
     useState({
@@ -52,7 +60,7 @@ function EditNewsPage() {
 
       content: "",
 
-      featured_image: "",
+      featured_image: null,
 
       author: "",
 
@@ -109,7 +117,7 @@ function EditNewsPage() {
             article.content || "",
 
           featured_image:
-            article.featured_image || "",
+            null,
 
           author:
             article.author || "",
@@ -128,6 +136,10 @@ function EditNewsPage() {
 
         });
 
+        setPreview(
+            article.featured_image
+        );
+
       } catch (err) {
 
         console.error(err);
@@ -140,33 +152,161 @@ function EditNewsPage() {
 
     };
 
-  const handleSubmit =
-    async () => {
+  const MAX_FILE_SIZE =
+    2 * 1024 * 1024;
 
-      try {
+  const ALLOWED_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+  ];
+
+  const handleSubmit =
+async () => {
+
+    try{
 
         setSaving(true);
 
+        const formData =
+            new FormData();
+
+        formData.append(
+            "title",
+            form.title
+        );
+
+        formData.append(
+            "slug",
+            form.slug
+        );
+
+        formData.append(
+            "category_id",
+            form.category_id
+        );
+
+        formData.append(
+            "summary",
+            form.summary
+        );
+
+        formData.append(
+            "content",
+            form.content
+        );
+
+        formData.append(
+            "author",
+            form.author
+        );
+
+        formData.append(
+            "published_at",
+            form.published_at
+        );
+
+        formData.append(
+            "is_featured",
+            form.is_featured
+        );
+
+        formData.append(
+            "is_published",
+            form.is_published
+        );
+
+        if(
+            form.featured_image
+        ){
+
+            formData.append(
+                "featured_image",
+                form.featured_image
+            );
+
+        }
+
+        formData.append(
+          "remove_image",
+          removeCurrentImage
+        );
+
         await updateNews(
-          id,
-          form
+            id,
+            formData
         );
 
         navigate("/news");
 
-      } catch (err) {
-
-        console.error(err);
-
-      } finally {
+    }finally{
 
         setSaving(false);
 
-      }
+    }
 
-    };
+};
 
-  if (loading) {
+  
+
+  const handleImageChange = (e) => {
+
+    const file =
+        e.target.files?.[0];
+
+    if (!file) return;
+
+    if (
+        !ALLOWED_TYPES.includes(
+            file.type
+        )
+    ) {
+        toast.error(
+            "Only JPG, PNG and WEBP images are allowed."
+        );
+        return;
+    }
+
+    if (
+        file.size >
+        MAX_FILE_SIZE
+    ) {
+        toast.error(
+            "Maximum image size is 2 MB."
+        );
+        return;
+    }
+
+    setForm((prev)=>({
+
+        ...prev,
+
+        featured_image:file,
+
+    }));
+
+    setRemoveCurrentImage(false);
+
+    setPreview(
+        URL.createObjectURL(file)
+    );
+
+};
+
+const removeImage = () => {
+
+  setPreview(null);
+
+  setRemoveCurrentImage(true);
+
+  setForm((prev) => ({
+    ...prev,
+    featured_image: null,
+  }));
+
+};
+
+if (loading) {
 
     return (
 
@@ -196,11 +336,21 @@ function EditNewsPage() {
 
         loading={saving}
 
+        preview={preview}
+
+        onImageChange={
+            handleImageChange
+        }
+
+        onRemoveImage={
+            removeImage
+        }
+
         onSubmit={handleSubmit}
 
         submitLabel="Update Article"
 
-      />
+    />
 
     </AdminLayout>
 
